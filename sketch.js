@@ -11,9 +11,12 @@ var bird, slingshot;
 var gameState = "onSling";
 var bg = "sprites/bg1.png";
 var score = 0;
+var birdSound 
 
 function preload() {
-    getBackgroundImg();
+    //getBackgroundImg();
+    backgroundImg=loadImage(bg);
+    birdSound=loadSound("sounds/bird_flying.mp3")
 }
 
 function setup(){
@@ -90,11 +93,16 @@ function mouseDragged(){
 function mouseReleased(){
     slingshot.fly();
     gameState = "launched";
+    birdSound.play();
 }
 
 function keyPressed(){
-    if(keyCode === 32){
+    if(keyCode === 32&&gameState==="launched")
+    {Matter.Body.setPosition(bird.body,{
+        x:200, y:50
+    })
        slingshot.attach(bird.body);
+       gameState="onSling"
     }
 }
 
